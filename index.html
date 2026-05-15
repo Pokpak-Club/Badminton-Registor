@@ -252,7 +252,7 @@ if(firebaseConfig.apiKey === "YOUR_API_KEY"){
       state.syncStatus = "error";
       state.loaded = true;
       render();
-      showAlert("เชื่อมต่อ Firebase ไม่ได้ — ตรวจสอบ Firestore rules","error");
+      showAlert("เชื่อมต่อ Firebase ไม่ได้","error");
     });
   } catch(e){
     console.error("Firebase init error:", e);
@@ -333,7 +333,7 @@ function render(){
   }
 
   if(!state.loaded){
-    root.innerHTML = `<div class="bd-loader"><i class="ti ti-loader-2 bd-spin" style="font-size:32px;display:block;margin-bottom:.5rem"></i>กำลังเชื่อมต่อ Firebase...</div>`;
+    root.innerHTML = `<div class="bd-loader"><i class="ti ti-loader-2 bd-spin" style="font-size:32px;display:block;margin-bottom:.5rem"></i>กำลังเชื่อมต่อ...</div>`;
     return;
   }
 
@@ -353,7 +353,7 @@ function render(){
       ${renderSyncIndicator()}
       ${state.currentUser?`<span class="bd-badge bd-badge-user"><i class="ti ti-user" aria-hidden="true"></i>${escapeHtml(state.currentUser)}</span>`:''}
       ${state.isAdmin?`<span class="bd-badge bd-badge-admin"><i class="ti ti-shield-lock" aria-hidden="true"></i>Admin</span>`:''}
-      ${(state.isAdmin||state.currentUser)?`<button class="bd-btn bd-btn-sm" onclick="bdLogout()"><i class="ti ti-logout"></i>ออก</button>`:''}
+      ${(state.isAdmin||state.currentUser)?`<button class="bd-btn bd-btn-sm" onclick="bdLogout()"><i class="ti ti-logout"></i>ออกจากระบบ</button>`:''}
     </div>
   </div>`;
 
@@ -369,11 +369,11 @@ function render(){
         <div class="bd-stat-val">${activeSlots.length}</div>
       </div>
       <div class="bd-stat">
-        <div class="bd-stat-label"><i class="ti ti-users"></i>ผู้ลงชื่อรวม</div>
+        <div class="bd-stat-label"><i class="ti ti-users"></i>ผู้ลงชื่อ</div>
         <div class="bd-stat-val">${totalSignups}</div>
       </div>
       ${totalWaiting>0?`<div class="bd-stat">
-        <div class="bd-stat-label"><i class="ti ti-clock-hour-3"></i>รอสำรองรวม</div>
+        <div class="bd-stat-label"><i class="ti ti-clock-hour-3"></i>รายชื่อสำรอง</div>
         <div class="bd-stat-val">${totalWaiting}</div>
       </div>`:''}
       ${state.currentUser?`<div class="bd-stat">
@@ -447,9 +447,10 @@ function renderUserView(){
         <div class="bd-welcome-icon"><i class="ti ti-user-plus" aria-hidden="true"></i></div>
         <h3>ยินดีต้อนรับ</h3>
         <p>กรอกชื่อเพื่อเริ่มลงชื่อจองรอบ</p>
+        <p>หากต้องการลงชื่อให้คนอื่นด้วย ให้ลงชื่อตัวเองหลังจากนั้นกด "ออกจากระบบ" แล้วพิมพ์ชื่อคนที่อยากลงแล้วกด "เข้าใช้" เพื่อลงชื่อ</p>
         ${state._nameWarn ? `<div class="bd-alert bd-alert-error" style="max-width:380px;margin:0 auto .75rem;text-align:left"><i class="ti ti-alert-circle"></i>กรุณากรอกชื่อก่อนดูรอบเวลา</div>` : ''}
         <div class="bd-name-form">
-          <input class="bd-input${state._nameWarn?' bd-input-shake bd-input-warn':''}" type="text" id="bd-nameInput" placeholder="ชื่อ-นามสกุล หรือชื่อเล่น" maxlength="30" onkeydown="if(event.key==='Enter')bdSetUser()">
+          <input class="bd-input${state._nameWarn?' bd-input-shake bd-input-warn':''}" type="text" id="bd-nameInput" placeholder="ชื่อเล่น" maxlength="30" onkeydown="if(event.key==='Enter')bdSetUser()">
           <button class="bd-btn bd-btn-primary" onclick="bdSetUser()" style="width:6.5rem"><i class="ti ti-arrow-right"></i>เข้าใช้</button>
         </div>
       </div>
@@ -551,7 +552,7 @@ function renderAdminView(){
         <select class="bd-select" id="bd-adminPeriod">${SLOT_PERIODS.map(p=>`<option value="${p.id}">${p.label} (${p.time})</option>`).join('')}</select>
       </div>
       <div>
-        <label class="bd-label">จำนวนสูงสุด (ค่าตาม default ของรอบ)</label>
+        <label class="bd-label">จำนวนสูงสุด (ถ้าไม่ปรับจะเป็น default ของระบบ)</label>
         <input class="bd-input bd-input-num" type="number" id="bd-adminLimit" min="1" max="200" placeholder="auto" style="width:100%">
       </div>
     </div>
