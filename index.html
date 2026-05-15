@@ -463,7 +463,7 @@ function renderUserView(){
     .filter(s=>!isPast(s.date,s.periodId))
     .sort((a,b)=>new Date(a.date)-new Date(b.date)||SLOT_PERIODS.findIndex(p=>p.id===a.periodId)-SLOT_PERIODS.findIndex(p=>p.id===b.periodId));
 
-  let html = `<div class="bd-info-banner"><i class="ti ti-info-circle"></i>สามารถลงชื่อได้หลายรอบ · หากเต็มระบบจะเพิ่มคุณเป็น <strong>สำรอง</strong> อัตโนมัติ</div>`;
+  let html = `<div class="bd-info-banner"><i class="ti ti-info-circle"></i>สามารถลงชื่อได้หลายรอบ · หากเต็มระบบจะเพิ่มคุณเป็นสำรองอัตโนมัติ</div>`;
 
   if(!activeSlots.length){
     return html + `<div class="bd-card">
