@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบลงชื่อตีแบดก๊วนป๊อกแป๊ก</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#F5F4ED;
+  --color-background-tertiary:#EEEDE5;
+  --color-background-danger:#FDEBEB;
+  --color-background-success:#E1F5EE;
+  --color-background-warning:#FAEEDA;
+  --color-background-info:#E6F1FB;
+  --color-text-primary:#1A1A1A;
+  --color-text-secondary:#5F5E5A;
+  --color-text-tertiary:#888780;
+  --color-text-danger:#A32D2D;
+  --color-text-success:#0F6E56;
+  --color-text-warning:#854F0B;
+  --color-text-info:#0C447C;
+  --color-border-tertiary:rgba(0,0,0,0.08);
+  --color-border-secondary:rgba(0,0,0,0.15);
+  --color-border-primary:rgba(0,0,0,0.25);
+  --color-border-danger:rgba(163,45,45,0.3);
+  --color-border-info:rgba(12,68,124,0.3);
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Sukhumvit Set","IBM Plex Sans Thai",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --color-background-primary:#1F1E1B;
+    --color-background-secondary:#2A2926;
+    --color-background-tertiary:#1A1917;
+    --color-background-danger:#3A1818;
+    --color-background-success:#0E2A22;
+    --color-background-warning:#3A2A10;
+    --color-background-info:#0F2540;
+    --color-text-primary:#F2F1EB;
+    --color-text-secondary:#B4B2A9;
+    --color-text-tertiary:#888780;
+    --color-text-danger:#F09595;
+    --color-text-success:#5DCAA5;
+    --color-text-warning:#FAC775;
+    --color-text-info:#85B7EB;
+    --color-border-tertiary:rgba(255,255,255,0.08);
+    --color-border-secondary:rgba(255,255,255,0.15);
+    --color-border-primary:rgba(255,255,255,0.25);
+    --color-border-danger:rgba(240,149,149,0.3);
+    --color-border-info:rgba(133,183,235,0.3);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;line-height:1.5}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.bd-app{max-width:760px;margin:0 auto;padding:1.5rem 1rem}
+.bd-hero{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.bd-brand{display:flex;align-items:center;gap:14px}
+.bd-brand-icon{width:44px;height:44px;border-radius:var(--border-radius-md);background:#E1F5EE;color:#0F6E56;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.bd-brand-title{font-size:18px;font-weight:500;line-height:1.2;margin:0}
+.bd-brand-sub{font-size:13px;color:var(--color-text-secondary);margin-top:2px}
+.bd-hero-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bd-sync{font-size:12px;color:var(--color-text-tertiary);display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--color-background-secondary);border-radius:20px}
+.bd-sync.ok{color:var(--color-text-success)}
+.bd-sync.err{color:var(--color-text-danger)}
+.bd-badge{font-size:12px;padding:5px 12px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.bd-badge-admin{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bd-badge-user{background:#E1F5EE;color:#0F6E56}
+.bd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px;cursor:pointer;font-family:var(--font-sans);transition:all .15s;font-weight:400}
+.bd-btn:hover{background:var(--color-background-secondary);border-color:var(--color-border-primary)}
+.bd-btn:active{transform:scale(0.98)}
+.bd-btn:disabled{opacity:0.5;cursor:not-allowed}
+.bd-btn-primary{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.bd-btn-primary:hover{background:#0F6E56;border-color:#0F6E56;color:#fff}
+.bd-btn-danger{background:transparent;border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.bd-btn-danger:hover{background:var(--color-background-danger)}
+.bd-btn-sm{padding:5px 11px;font-size:12px}
+.bd-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem}
+.bd-stat{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:0.875rem 1rem}
+.bd-stat-label{font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.bd-stat-val{font-size:22px;font-weight:500;line-height:1.1}
+.bd-tabs{display:flex;gap:6px;margin-bottom:1rem;align-items:center;flex-wrap:wrap}
+.bd-tab{padding:8px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:13px;cursor:pointer;font-family:var(--font-sans);display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.bd-tab:hover{background:var(--color-background-secondary)}
+.bd-tab.active{background:#0F6E56;border-color:#0F6E56;color:#fff}
+.bd-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.bd-card-title{font-size:15px;font-weight:500;margin:0 0 1rem;display:flex;align-items:center;gap:8px}
+.bd-card-title i{font-size:18px;color:#1D9E75}
+.bd-input,.bd-select{width:100%;padding:9px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;font-family:var(--font-sans);transition:border-color .15s}
+.bd-input:focus,.bd-select:focus{outline:none;border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,0.15)}
+/* shake animation for name input when user tries to view slots without entering name */
+@keyframes bd-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.bd-input-shake{animation:bd-shake .35s ease}
+.bd-input-warn{border-color:#A32D2D !important;box-shadow:0 0 0 3px rgba(163,45,45,0.15) !important}
+.bd-label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:5px;font-weight:500}
+.bd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.bd-day-group{margin-bottom:1.25rem}
+.bd-day-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary);flex-wrap:wrap}
+.bd-day-date{font-size:14px;font-weight:500}
+.bd-day-rel{font-size:12px;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:2px 9px;border-radius:20px}
+.bd-day-rel.today{background:#E1F5EE;color:#0F6E56}
+.bd-day-rel.tomorrow{background:var(--color-background-info);color:var(--color-text-info)}
+.bd-slot{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.875rem 1rem;margin-bottom:8px}
+.bd-slot-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.bd-slot-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bd-slot-period{display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:14px}
+.bd-slot-period i{font-size:18px}
+.bd-slot-period.morning i{color:#BA7517}
+.bd-slot-period.evening i{color:#D85A30}
+.bd-slot-period.night i{color:#534AB7}
+.bd-slot-time{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:3px 9px;border-radius:20px;font-variant-numeric:tabular-nums}
+.bd-slot-count{font-size:12px;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:4px}
+.bd-signups{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;align-items:center}
+.bd-chip{display:inline-flex;align-items:center;gap:6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:4px 10px 4px 6px;font-size:13px}
+.bd-chip-avatar{width:20px;height:20px;border-radius:50%;background:#E1F5EE;color:#0F6E56;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.bd-chip-me{background:#E1F5EE;border-color:#5DCAA5;color:#0F6E56}
+.bd-chip-me .bd-chip-avatar{background:#1D9E75;color:#fff}
+.bd-chip-del{cursor:pointer;color:var(--color-text-tertiary);font-size:14px;line-height:1;padding:0 2px;margin-left:2px;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
+.bd-chip-del:hover{color:var(--color-text-danger);background:var(--color-background-danger)}
+.bd-empty{font-size:13px;color:var(--color-text-tertiary);font-style:italic}
+.bd-empty-state{text-align:center;padding:2.5rem 1rem;color:var(--color-text-tertiary)}
+.bd-empty-state i{font-size:40px;display:block;margin-bottom:.75rem;color:var(--color-text-tertiary)}
+.bd-empty-state p{margin:4px 0}
+.bd-modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem}
+.bd-modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:1.5rem;width:min(400px,100%);border:0.5px solid var(--color-border-secondary)}
+.bd-modal-title{font-size:16px;font-weight:500;margin:0 0 1rem;display:flex;align-items:center;gap:8px}
+.bd-modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
+.bd-past{opacity:0.55}
+.bd-past-badge{font-size:11px;background:var(--color-background-tertiary);color:var(--color-text-tertiary);padding:2px 8px;border-radius:20px}
+.bd-alert{padding:10px 14px;border-radius:var(--border-radius-md);font-size:13px;margin-bottom:.75rem;display:flex;align-items:center;gap:8px;border:0.5px solid}
+.bd-alert-success{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5}
+.bd-alert-error{background:var(--color-background-danger);color:var(--color-text-danger);border-color:var(--color-border-danger)}
+.bd-divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:.75rem 0}
+.bd-add-form{display:flex;gap:8px;align-items:stretch}
+.bd-add-form input{flex:1}
+.bd-spin{display:inline-block;animation:bd-spin .8s linear infinite}
+@keyframes bd-spin{to{transform:rotate(360deg)}}
+.bd-loader{text-align:center;padding:3rem 0;color:var(--color-text-secondary)}
+.bd-welcome{text-align:center;padding:1rem 0}
+.bd-welcome-icon{width:64px;height:64px;border-radius:50%;background:#E1F5EE;color:#0F6E56;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 1rem}
+.bd-welcome h3{font-size:17px;font-weight:500;margin:0 0 6px}
+.bd-welcome p{font-size:13px;color:var(--color-text-secondary);margin:0 0 1.25rem}
+.bd-name-form{display:flex;gap:8px;max-width:380px;margin:0 auto}
+.bd-info-banner{font-size:13px;background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);border-radius:var(--border-radius-md);padding:9px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.bd-setup-warning{background:var(--color-background-warning);color:var(--color-text-warning);border:0.5px solid rgba(133,79,11,0.3);border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin-bottom:1rem;font-size:13px;line-height:1.6}
+.bd-setup-warning strong{font-weight:500;display:block;margin-bottom:6px;font-size:14px}
+.bd-setup-warning code{background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+.bd-footer{text-align:center;font-size:12px;color:var(--color-text-tertiary);padding:1.5rem 0 .5rem}
+@media (max-width:520px){
+.bd-app{padding:1rem .75rem}
+.bd-hero{padding:1rem}
+.bd-card{padding:1rem}
+.bd-grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<h1 class="sr-only">ระบบลงชื่อตีแบดก๊วนป๊อกแป๊ก</h1>
+
+<div class="bd-app" id="bd-root">
+  <div class="bd-loader"><i class="ti ti-loader-2 bd-spin" style="font-size:32px;display:block;margin-bottom:.5rem"></i>กำลังเชื่อมต่อ...</div>
+</div>
+
+<div class="bd-footer">⚡ Powered By · Poom</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDYrliwQj9jmsbbS63ffpdIGPTDhJEGTAI",
+  authDomain: "badminton-e2f4d.firebaseapp.com",
+  projectId: "badminton-e2f4d",
+  storageBucket: "badminton-e2f4d.firebasestorage.app",
+  messagingSenderId: "289792798899",
+  appId: "1:289792798899:web:faf8417a0eede18f2640c6",
+  measurementId: "G-Q3EFXKVWKD"
+};
+
+const ADMIN_PASSWORD = "badmin2025";
+const USER_KEY = "badminton_user_v1";
+const DOC_PATH = ["app","data"];
+
+const SLOT_PERIODS = [
+  {id:"morning",label:"รอบเช้า",icon:"ti-sun",time:"09:00–12:00",cls:"morning"},
+  {id:"evening",label:"รอบเย็น",icon:"ti-sunset-2",time:"19:00–23:00",cls:"evening"},
+  {id:"night",label:"รอบกลางคืน",icon:"ti-moon-stars",time:"20:00–22:00",cls:"night"}
+];
+
+let state = {
+  view:"user",
+  currentUser: localStorage.getItem(USER_KEY) || "",
+  isAdmin:false,
+  slots:[],
+  alert:null,
+  modal:null,
+  loaded:false,
+  syncStatus:"connecting",
+  configError:false
+};
+
+let db = null;
+let docRef = null;
+
+if(firebaseConfig.apiKey === "YOUR_API_KEY"){
+  state.configError = true;
+  state.loaded = true;
+  render();
+} else {
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    docRef = doc(db, DOC_PATH[0], DOC_PATH[1]);
+    onSnapshot(docRef, (snap)=>{
+      if(snap.exists()){
+        const data = snap.data();
+        state.slots = data.slots || [];
+      } else {
+        state.slots = [];
+      }
+      state.loaded = true;
+      state.syncStatus = "online";
+      render();
+    }, (err)=>{
+      console.error("Firestore error:", err);
+      state.syncStatus = "error";
+      state.loaded = true;
+      render();
+      showAlert("เชื่อมต่อ Firebase ไม่ได้ — ตรวจสอบ Firestore rules","error");
+    });
+  } catch(e){
+    console.error("Firebase init error:", e);
+    state.configError = true;
+    state.loaded = true;
+    render();
+  }
+}
+
+async function updateSlots(mutator){
+  if(!docRef) return;
+  state.syncStatus = "saving"; render();
+  try {
+    await runTransaction(db, async (tx)=>{
+      const snap = await tx.get(docRef);
+      const current = snap.exists() ? (snap.data().slots || []) : [];
+      const next = mutator(JSON.parse(JSON.stringify(current)));
+      tx.set(docRef, {slots: next, updatedAt: Date.now()});
+    });
+    state.syncStatus = "online";
+  } catch(e){
+    console.error("Save error:", e);
+    state.syncStatus = "error";
+    showAlert("บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง","error");
+  }
+  render();
+}
+
+function isPast(dateStr, periodId){
+  const d = new Date(dateStr);
+  const period = SLOT_PERIODS.find(p=>p.id===periodId);
+  const endH = parseInt(period.time.split("–")[1].split(":")[0]);
+  return new Date() > new Date(d.getFullYear(),d.getMonth(),d.getDate(),endH,0,0);
+}
+
+function formatDate(str){
+  const d = new Date(str+"T00:00:00");
+  const days=["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัส","ศุกร์","เสาร์"];
+  return `${days[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()+543}`;
+}
+
+function getRelativeDay(str){
+  const d = new Date(str+"T00:00:00");
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((d-today)/(1000*60*60*24));
+  if(diff===0) return {text:"วันนี้",cls:"today"};
+  if(diff===1) return {text:"พรุ่งนี้",cls:"tomorrow"};
+  if(diff>1 && diff<=7) return {text:`อีก ${diff} วัน`,cls:""};
+  return null;
+}
+
+function getInitial(name){
+  return name.trim().charAt(0).toUpperCase();
+}
+
+function showAlert(msg,type){
+  state.alert={msg,type:type||"success"}; render();
+  setTimeout(()=>{state.alert=null;render();},3000);
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function render(){
+  const root = document.getElementById("bd-root");
+  if(!root) return;
+
+  if(state.configError){
+    root.innerHTML = renderSetupGuide();
+    return;
+  }
+
+  if(!state.loaded){
+    root.innerHTML = `<div class="bd-loader"><i class="ti ti-loader-2 bd-spin" style="font-size:32px;display:block;margin-bottom:.5rem"></i>กำลังเชื่อมต่อ Firebase...</div>`;
+    return;
+  }
+
+  let html = `<div class="bd-hero">
+    <div class="bd-brand">
+      <div class="bd-brand-icon"><i class="ti ti-ball-tennis" aria-hidden="true"></i></div>
+      <div>
+        <div class="bd-brand-title">ระบบลงชื่อตีแบดก๊วนป๊อกแป๊ก</div>
+        <div class="bd-brand-sub">มาตีแบดกันค่ะ สนามนนท์สปอร์ต</div>
+        <div class="bd-brand-sub">#ห้ามเสิร์ฟยิง,ห้ามยืนชิดเส้น/แย็บ<br>
+                                  #งดสอน,เหวี่ยง,วีน,ตึง<br>
+                                  #อยากได้แบบไหนเดินมาบอกผู้จัดได้เลย</div>
+        <div class="bd-brand-sub">แผนที่สนาม : https://maps.app.goo.gl/S3zxmozrGKT4SY2z8</div>
+      </div>
+    </div>
+    <div class="bd-hero-right">
+      ${renderSyncIndicator()}
+      ${state.currentUser?`<span class="bd-badge bd-badge-user"><i class="ti ti-user" aria-hidden="true"></i>${escapeHtml(state.currentUser)}</span>`:''}
+      ${state.isAdmin?`<span class="bd-badge bd-badge-admin"><i class="ti ti-shield-lock" aria-hidden="true"></i>Admin</span>`:''}
+      ${(state.isAdmin||state.currentUser)?`<button class="bd-btn bd-btn-sm" onclick="bdLogout()"><i class="ti ti-logout"></i>ออก</button>`:''}
+    </div>
+  </div>`;
+
+  if(state.currentUser || state.isAdmin){
+    const activeSlots = state.slots.filter(s=>!isPast(s.date,s.periodId));
+    const totalSignups = activeSlots.reduce((sum,s)=>sum+s.signups.length,0);
+    const mySignups = state.currentUser ? activeSlots.filter(s=>s.signups.includes(state.currentUser)).length : 0;
+    html += `<div class="bd-stats">
+      <div class="bd-stat">
+        <div class="bd-stat-label"><i class="ti ti-calendar-event"></i>รอบที่เปิด</div>
+        <div class="bd-stat-val">${activeSlots.length}</div>
+      </div>
+      <div class="bd-stat">
+        <div class="bd-stat-label"><i class="ti ti-users"></i>ผู้ลงชื่อรวม</div>
+        <div class="bd-stat-val">${totalSignups}</div>
+      </div>
+      ${state.currentUser?`<div class="bd-stat">
+        <div class="bd-stat-label"><i class="ti ti-bookmark"></i>ที่ฉันลงไว้</div>
+        <div class="bd-stat-val">${mySignups}</div>
+      </div>`:''}
+    </div>`;
+  }
+
+  if(state.alert){
+    const icon = state.alert.type==='success'?'ti-circle-check':'ti-alert-circle';
+    html += `<div class="bd-alert bd-alert-${state.alert.type}"><i class="ti ${icon}"></i>${escapeHtml(state.alert.msg)}</div>`;
+  }
+
+  html += `<div class="bd-tabs">
+    <button class="bd-tab ${state.view==='user'?'active':''}" onclick="bdSetView('user')"><i class="ti ti-calendar"></i>ดูรอบ / ลงชื่อ</button>
+    ${state.isAdmin
+      ? `<button class="bd-tab ${state.view==='admin'?'active':''}" onclick="bdSetView('admin')"><i class="ti ti-settings"></i>จัดการ</button>`
+      : `<button class="bd-tab" onclick="bdOpenAdminLogin()"><i class="ti ti-lock"></i>Admin</button>`}
+  </div>`;
+
+  html += state.view==="user" ? renderUserView() : (state.isAdmin ? renderAdminView() : '');
+  if(state.modal) html += renderModal();
+
+  root.innerHTML = html;
+}
+
+function renderSyncIndicator(){
+  if(state.syncStatus==="saving") return `<span class="bd-sync"><i class="ti ti-refresh bd-spin"></i>กำลังบันทึก</span>`;
+  if(state.syncStatus==="error") return `<span class="bd-sync err"><i class="ti ti-cloud-off"></i>ออฟไลน์</span>`;
+  return `<span class="bd-sync ok"><i class="ti ti-cloud-check"></i>ซิงค์แล้ว</span>`;
+}
+
+function renderSetupGuide(){
+  return `<div class="bd-hero">
+    <div class="bd-brand">
+      <div class="bd-brand-icon" style="background:#FAEEDA;color:#854F0B"><i class="ti ti-settings" aria-hidden="true"></i></div>
+      <div>
+        <div class="bd-brand-title">ต้องตั้งค่า Firebase ก่อนใช้งาน</div>
+        <div class="bd-brand-sub">ดูคู่มือใน README.txt ที่แนบมาด้วย</div>
+      </div>
+    </div>
+  </div>
+  <div class="bd-card">
+    <div class="bd-card-title"><i class="ti ti-list-numbers"></i>ขั้นตอนสรุป</div>
+    <ol style="padding-left:1.25rem;font-size:14px;line-height:1.9">
+      <li>สมัคร Firebase ที่ <a href="https://console.firebase.google.com" target="_blank" style="color:#1D9E75">console.firebase.google.com</a> (ฟรี)</li>
+      <li>สร้างโปรเจกต์ใหม่ → เพิ่ม Web app → คัดลอก <code>firebaseConfig</code></li>
+      <li>เปิด <strong>Firestore Database</strong> ในโปรเจกต์ → Create database → Start in test mode</li>
+      <li>เปิดไฟล์ <code>badminton-firebase.html</code> ด้วย text editor</li>
+      <li>มองหา <code>// ↓↓↓ แทนที่ค่าด้านล่าง ↓↓↓</code> แล้ววางค่า config ที่คัดลอกมา</li>
+      <li>เซฟไฟล์ แล้วเปิดด้วยเบราว์เซอร์อีกครั้ง — เสร็จ!</li>
+    </ol>
+    <div class="bd-setup-warning" style="margin-top:1rem">
+      <strong><i class="ti ti-alert-triangle"></i> หมายเหตุ Firestore Rules</strong>
+      สำหรับใช้งานในกลุ่มเพื่อน ให้ตั้ง rules แบบเปิดอ่าน-เขียนได้ก่อน (ดูใน README.txt) ไม่ต้องตั้ง Authentication
+    </div>
+  </div>`;
+}
+
+function renderUserView(){
+  // ── ยังไม่ได้กรอกชื่อ: แสดงฟอร์มพร้อม flag สำหรับ shake ──
+  if(!state.currentUser){
+    return `<div class="bd-card">
+      <div class="bd-welcome">
+        <div class="bd-welcome-icon"><i class="ti ti-user-plus" aria-hidden="true"></i></div>
+        <h3>ยินดีต้อนรับ</h3>
+        <p>กรอกชื่อเพื่อเริ่มลงชื่อจองรอบ</p>
+        ${state._nameWarn ? `<div class="bd-alert bd-alert-error" style="max-width:380px;margin:0 auto .75rem;text-align:left"><i class="ti ti-alert-circle"></i>กรุณากรอกชื่อก่อนดูรอบเวลา</div>` : ''}
+        <div class="bd-name-form">
+          <input class="bd-input${state._nameWarn?' bd-input-shake bd-input-warn':''}" type="text" id="bd-nameInput" placeholder="ชื่อ-นามสกุล หรือชื่อเล่น" maxlength="30" onkeydown="if(event.key==='Enter')bdSetUser()">
+          <button class="bd-btn bd-btn-primary" onclick="bdSetUser()" style="width: 6.5rem"><i class="ti ti-arrow-right"></i>เข้าใช้</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const activeSlots = state.slots
+    .filter(s=>!isPast(s.date,s.periodId))
+    .sort((a,b)=>new Date(a.date)-new Date(b.date)||SLOT_PERIODS.findIndex(p=>p.id===a.periodId)-SLOT_PERIODS.findIndex(p=>p.id===b.periodId));
+
+  let html = `<div class="bd-info-banner"><i class="ti ti-info-circle"></i>สามารถลงชื่อได้หลายรอบในวันเดียวกัน</div>`;
+
+  if(!activeSlots.length){
+    return html + `<div class="bd-card">
+      <div class="bd-empty-state">
+        <i class="ti ti-calendar-off"></i>
+        <p style="font-weight:500;color:var(--color-text-secondary)">ยังไม่มีรอบที่เปิดรับ</p>
+        <p>รอ Admin เพิ่มรอบใหม่</p>
+      </div>
+    </div>`;
+  }
+
+  const byDate = {};
+  activeSlots.forEach(s=>{ if(!byDate[s.date]) byDate[s.date]=[]; byDate[s.date].push(s); });
+
+  html += `<div class="bd-card">`;
+  Object.entries(byDate).forEach(([date,slots],idx)=>{
+    const rel = getRelativeDay(date);
+    html += `<div class="bd-day-group" ${idx===Object.keys(byDate).length-1?'style="margin-bottom:0"':''}>
+      <div class="bd-day-header">
+        <i class="ti ti-calendar-event" style="font-size:16px;color:#1D9E75"></i>
+        <span class="bd-day-date">${formatDate(date)}</span>
+        ${rel?`<span class="bd-day-rel ${rel.cls}">${rel.text}</span>`:''}
+      </div>`;
+    slots.forEach(slot=>{
+      const period = SLOT_PERIODS.find(p=>p.id===slot.periodId);
+      const alreadyIn = slot.signups.includes(state.currentUser);
+      html += `<div class="bd-slot">
+        <div class="bd-slot-header">
+          <div class="bd-slot-info">
+            <span class="bd-slot-period ${period.cls}"><i class="ti ${period.icon}"></i>${period.label}</span>
+            <span class="bd-slot-time"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px"></i> ${period.time}</span>
+            <span class="bd-slot-count"><i class="ti ti-users" style="font-size:13px"></i>${slot.signups.length}</span>
+          </div>
+          ${alreadyIn
+            ? `<button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdRemoveSelf('${slot.id}')"><i class="ti ti-x"></i>ถอนชื่อ</button>`
+            : `<button class="bd-btn bd-btn-sm bd-btn-primary" onclick="bdSignUp('${slot.id}')"><i class="ti ti-plus"></i>ลงชื่อ</button>`}
+        </div>
+        <div class="bd-signups">${slot.signups.length
+          ? slot.signups.map(u=>{
+              const isMe = u===state.currentUser;
+              return `<span class="bd-chip${isMe?' bd-chip-me':''}"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span>${escapeHtml(u)}${isMe?' <i class="ti ti-check" style="font-size:11px"></i>':''}</span>`;
+            }).join('')
+          : `<span class="bd-empty">ยังไม่มีผู้ลงชื่อ</span>`}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function renderAdminView(){
+  const today = new Date().toISOString().split('T')[0];
+  let html = `<div class="bd-card">
+    <div class="bd-card-title"><i class="ti ti-calendar-plus"></i>เพิ่มรอบใหม่</div>
+    <div class="bd-grid2">
+      <div>
+        <label class="bd-label">วันที่</label>
+        <input class="bd-input" type="date" id="bd-adminDate" min="${today}">
+      </div>
+      <div>
+        <label class="bd-label">รอบ</label>
+        <select class="bd-select" id="bd-adminPeriod">${SLOT_PERIODS.map(p=>`<option value="${p.id}">${p.label} (${p.time})</option>`).join('')}</select>
+      </div>
+    </div>
+    <button class="bd-btn bd-btn-primary" onclick="bdAdminAddSlot()"><i class="ti ti-plus"></i>เพิ่มรอบ</button>
+  </div>
+  <div class="bd-card">
+    <div class="bd-card-title"><i class="ti ti-list-details"></i>รอบทั้งหมด (${state.slots.length})</div>`;
+
+  if(!state.slots.length){
+    html += `<div class="bd-empty-state">
+      <i class="ti ti-inbox"></i>
+      <p>ยังไม่มีรอบในระบบ</p>
+    </div>`;
+  } else {
+    const sorted = [...state.slots].sort((a,b)=>new Date(a.date)-new Date(b.date)||SLOT_PERIODS.findIndex(p=>p.id===a.periodId)-SLOT_PERIODS.findIndex(p=>p.id===b.periodId));
+    sorted.forEach(slot=>{
+      const period = SLOT_PERIODS.find(p=>p.id===slot.periodId);
+      const past = isPast(slot.date,slot.periodId);
+      const rel = getRelativeDay(slot.date);
+      html += `<div class="bd-slot${past?' bd-past':''}" style="margin-bottom:10px">
+        <div class="bd-slot-header">
+          <div class="bd-slot-info" style="flex-direction:column;align-items:flex-start;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-weight:500;font-size:14px">${formatDate(slot.date)}</span>
+              ${past?'<span class="bd-past-badge">ผ่านไปแล้ว</span>':(rel?`<span class="bd-day-rel ${rel.cls}">${rel.text}</span>`:'')}
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span class="bd-slot-period ${period.cls}"><i class="ti ${period.icon}"></i>${period.label}</span>
+              <span class="bd-slot-time"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px"></i> ${period.time}</span>
+              <span class="bd-slot-count"><i class="ti ti-users" style="font-size:13px"></i>${slot.signups.length} คน</span>
+            </div>
+          </div>
+          <button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdAdminDeleteSlot('${slot.id}')"><i class="ti ti-trash"></i>ลบรอบ</button>
+        </div>
+        <div class="bd-signups">${slot.signups.length
+          ? slot.signups.map(u=>`<span class="bd-chip"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span>${escapeHtml(u)}<span class="bd-chip-del" onclick="bdAdminRemovePerson('${slot.id}','${encodeURIComponent(u)}')" title="ลบออก">×</span></span>`).join('')
+          : `<span class="bd-empty">ว่างอยู่</span>`}
+        </div>
+        <hr class="bd-divider">
+        <div class="bd-add-form">
+          <input class="bd-input" type="text" placeholder="เพิ่มชื่อด้วยตนเอง" id="bd-addName_${slot.id}" maxlength="30" onkeydown="if(event.key==='Enter')bdAdminAddPerson('${slot.id}')">
+          <button class="bd-btn bd-btn-sm bd-btn-primary" onclick="bdAdminAddPerson('${slot.id}')"><i class="ti ti-user-plus"></i>เพิ่ม</button>
+        </div>
+      </div>`;
+    });
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderModal(){
+  const m = state.modal;
+  if(m.type==="adminLogin"){
+    return `<div class="bd-modal-bg" onclick="if(event.target===this)bdCloseModal()">
+      <div class="bd-modal">
+        <div class="bd-modal-title"><i class="ti ti-shield-lock" style="color:#1D9E75"></i>เข้าสู่ระบบ Admin</div>
+        <label class="bd-label">รหัสผ่าน</label>
+        <input class="bd-input" type="password" id="bd-pwInput" placeholder="กรอกรหัสผ่าน" onkeydown="if(event.key==='Enter')bdDoAdminLogin()">
+        ${m.error?`<p style="color:var(--color-text-danger);font-size:13px;margin-top:8px;display:flex;align-items:center;gap:5px"><i class="ti ti-alert-circle"></i>${escapeHtml(m.error)}</p>`:''}
+        <div class="bd-modal-footer">
+          <button class="bd-btn" onclick="bdCloseModal()">ยกเลิก</button>
+          <button class="bd-btn bd-btn-primary" onclick="bdDoAdminLogin()"><i class="ti ti-login"></i>เข้าสู่ระบบ</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  return '';
+}
+
+// ───── Global handlers ─────
+window.bdSetView = v => {
+  // ถ้าคลิก "ดูรอบ/ลงชื่อ" แต่ยังไม่ได้กรอกชื่อ → แจ้งเตือนและ focus ช่องกรอกชื่อ
+  if(v === 'user' && !state.currentUser && !state.isAdmin){
+    state._nameWarn = true;
+    render();
+    // หลัง render เสร็จ: focus + scroll ไปที่ช่องกรอกชื่อ
+    setTimeout(()=>{
+      const inp = document.getElementById("bd-nameInput");
+      if(inp){
+        inp.focus();
+        inp.scrollIntoView({behavior:"smooth", block:"center"});
+      }
+      // ลบ class shake ออกหลัง animation จบ แต่คง warn ไว้จนกว่าจะกรอก
+      setTimeout(()=>{
+        if(inp) inp.classList.remove("bd-input-shake");
+      }, 400);
+    }, 50);
+    return; // ไม่เปลี่ยน view
+  }
+  state._nameWarn = false;
+  state.view = v;
+  render();
+};
+
+window.bdOpenAdminLogin = () => { state.modal={type:"adminLogin",error:null}; render(); setTimeout(()=>{const i=document.getElementById("bd-pwInput");if(i)i.focus();},50); };
+window.bdCloseModal = () => { state.modal=null; render(); };
+window.bdLogout = () => {
+  state.currentUser=""; state.isAdmin=false; state.view="user"; state._nameWarn=false;
+  try { localStorage.removeItem(USER_KEY); } catch(e){}
+  render();
+};
+
+window.bdDoAdminLogin = () => {
+  const pw = document.getElementById("bd-pwInput");
+  if(!pw) return;
+  if(pw.value===ADMIN_PASSWORD){
+    state.isAdmin=true; state.modal=null; state.view="admin"; render();
+    showAlert("เข้าสู่ระบบ Admin สำเร็จ");
+  } else {
+    state.modal.error="รหัสผ่านไม่ถูกต้อง"; render();
+    setTimeout(()=>{const i=document.getElementById("bd-pwInput");if(i){i.focus();i.select();}},50);
+  }
+};
+
+window.bdSetUser = () => {
+  const inp = document.getElementById("bd-nameInput");
+  if(!inp||!inp.value.trim()) return;
+  state.currentUser=inp.value.trim();
+  state._nameWarn=false;
+  try { localStorage.setItem(USER_KEY, state.currentUser); } catch(e){}
+  render();
+};
+
+window.bdSignUp = async (slotId) => {
+  if(!state.currentUser) return;
+  const user = state.currentUser;
+  await updateSlots(slots => {
+    const slot = slots.find(s=>s.id===slotId);
+    if(!slot) return slots;
+    if(slot.signups.includes(user)){
+      showAlert("คุณลงชื่อไว้แล้ว","error");
+      return slots;
+    }
+    slot.signups.push(user);
+    showAlert(`ลงชื่อ ${SLOT_PERIODS.find(p=>p.id===slot.periodId).label} สำเร็จ`);
+    return slots;
+  });
+};
+
+window.bdRemoveSelf = async (slotId) => {
+  const user = state.currentUser;
+  await updateSlots(slots => {
+    const slot = slots.find(s=>s.id===slotId);
+    if(slot) slot.signups = slot.signups.filter(u=>u!==user);
+    return slots;
+  });
+  showAlert("ถอนชื่อเรียบร้อย");
+};
+
+window.bdAdminAddSlot = async () => {
+  const d=document.getElementById("bd-adminDate");
+  const p=document.getElementById("bd-adminPeriod");
+  if(!d||!p||!d.value){ showAlert("กรุณาเลือกวันที่","error"); return; }
+  const date=d.value, periodId=p.value;
+  await updateSlots(slots => {
+    if(slots.find(s=>s.date===date&&s.periodId===periodId)){
+      showAlert("มีรอบนี้อยู่แล้ว","error");
+      return slots;
+    }
+    slots.push({id:`${date}_${periodId}`,date:date,periodId:periodId,signups:[]});
+    showAlert(`เพิ่มรอบ ${formatDate(date)} ${SLOT_PERIODS.find(x=>x.id===periodId).label} แล้ว`);
+    return slots;
+  });
+};
+
+window.bdAdminDeleteSlot = async (slotId) => {
+  if(!confirm("ยืนยันการลบรอบนี้?")) return;
+  await updateSlots(slots => slots.filter(s=>s.id!==slotId));
+  showAlert("ลบรอบเรียบร้อย");
+};
+
+window.bdAdminRemovePerson = async (slotId, encodedName) => {
+  const name=decodeURIComponent(encodedName);
+  await updateSlots(slots => {
+    const slot=slots.find(s=>s.id===slotId);
+    if(slot) slot.signups=slot.signups.filter(u=>u!==name);
+    return slots;
+  });
+};
+
+window.bdAdminAddPerson = async (slotId) => {
+  const inp=document.getElementById(`bd-addName_${slotId}`);
+  if(!inp||!inp.value.trim()) return;
+  const name=inp.value.trim();
+  await updateSlots(slots => {
+    const slot=slots.find(s=>s.id===slotId);
+    if(!slot) return slots;
+    if(slot.signups.includes(name)){
+      showAlert(`${name} มีชื่ออยู่แล้ว`,"error");
+      return slots;
+    }
+    slot.signups.push(name);
+    showAlert(`เพิ่ม ${name} แล้ว`);
+    return slots;
+  });
+  if(inp) inp.value="";
+};
+</script>
+</body>
+</html>
