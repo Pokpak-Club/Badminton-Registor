@@ -78,6 +78,7 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .bd-btn-danger{background:transparent;border-color:var(--color-border-danger);color:var(--color-text-danger)}
 .bd-btn-danger:hover{background:var(--color-background-danger)}
 .bd-btn-sm{padding:5px 11px;font-size:12px}
+.bd-btn-icon{padding:5px 8px;font-size:13px}
 .bd-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem}
 .bd-stat{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:0.875rem 1rem}
 .bd-stat-label{font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px;margin-bottom:4px}
@@ -91,12 +92,13 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .bd-card-title i{font-size:18px;color:#1D9E75}
 .bd-input,.bd-select{width:100%;padding:9px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;font-family:var(--font-sans);transition:border-color .15s}
 .bd-input:focus,.bd-select:focus{outline:none;border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,0.15)}
-/* shake animation for name input when user tries to view slots without entering name */
+.bd-input-num{width:72px;text-align:center;padding:6px 8px}
 @keyframes bd-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .bd-input-shake{animation:bd-shake .35s ease}
 .bd-input-warn{border-color:#A32D2D !important;box-shadow:0 0 0 3px rgba(163,45,45,0.15) !important}
 .bd-label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:5px;font-weight:500}
 .bd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.bd-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1rem}
 .bd-day-group{margin-bottom:1.25rem}
 .bd-day-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary);flex-wrap:wrap}
 .bd-day-date{font-size:14px;font-weight:500}
@@ -113,11 +115,27 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .bd-slot-period.night i{color:#534AB7}
 .bd-slot-time{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:3px 9px;border-radius:20px;font-variant-numeric:tabular-nums}
 .bd-slot-count{font-size:12px;color:var(--color-text-secondary);display:inline-flex;align-items:center;gap:4px}
+/* limit bar */
+.bd-limit-bar-wrap{margin:6px 0 8px;display:flex;align-items:center;gap:8px}
+.bd-limit-bar-track{flex:1;height:6px;border-radius:3px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);overflow:hidden}
+.bd-limit-bar-fill{height:100%;border-radius:3px;background:#1D9E75;transition:width .3s}
+.bd-limit-bar-fill.full{background:#A32D2D}
+.bd-limit-bar-fill.warn{background:#BA7517}
+.bd-limit-label{font-size:12px;color:var(--color-text-secondary);white-space:nowrap;flex-shrink:0}
+.bd-limit-label.full{color:var(--color-text-danger)}
+/* waitlist section */
+.bd-waitlist-section{margin-top:10px;padding-top:10px;border-top:0.5px dashed var(--color-border-secondary)}
+.bd-waitlist-header{font-size:12px;color:var(--color-text-warning);font-weight:500;display:flex;align-items:center;gap:5px;margin-bottom:6px}
 .bd-signups{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;align-items:center}
 .bd-chip{display:inline-flex;align-items:center;gap:6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:4px 10px 4px 6px;font-size:13px}
 .bd-chip-avatar{width:20px;height:20px;border-radius:50%;background:#E1F5EE;color:#0F6E56;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
 .bd-chip-me{background:#E1F5EE;border-color:#5DCAA5;color:#0F6E56}
 .bd-chip-me .bd-chip-avatar{background:#1D9E75;color:#fff}
+.bd-chip-wait{background:var(--color-background-warning);border-color:rgba(133,79,11,0.25);color:var(--color-text-warning)}
+.bd-chip-wait .bd-chip-avatar{background:#BA7517;color:#fff}
+.bd-chip-wait-me{background:var(--color-background-warning);border-color:rgba(133,79,11,0.4);color:var(--color-text-warning)}
+.bd-chip-wait-me .bd-chip-avatar{background:#854F0B;color:#fff}
+.bd-chip-num{font-size:10px;opacity:.7;margin-left:1px}
 .bd-chip-del{cursor:pointer;color:var(--color-text-tertiary);font-size:14px;line-height:1;padding:0 2px;margin-left:2px;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
 .bd-chip-del:hover{color:var(--color-text-danger);background:var(--color-background-danger)}
 .bd-empty{font-size:13px;color:var(--color-text-tertiary);font-style:italic}
@@ -136,6 +154,8 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .bd-divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:.75rem 0}
 .bd-add-form{display:flex;gap:8px;align-items:stretch}
 .bd-add-form input{flex:1}
+.bd-limit-control{display:flex;align-items:center;gap:6px}
+.bd-limit-control span{font-size:13px;font-weight:500;min-width:28px;text-align:center}
 .bd-spin{display:inline-block;animation:bd-spin .8s linear infinite}
 @keyframes bd-spin{to{transform:rotate(360deg)}}
 .bd-loader{text-align:center;padding:3rem 0;color:var(--color-text-secondary)}
@@ -149,11 +169,13 @@ body{font-family:var(--font-sans);background:var(--color-background-tertiary);co
 .bd-setup-warning strong{font-weight:500;display:block;margin-bottom:6px;font-size:14px}
 .bd-setup-warning code{background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:12px}
 .bd-footer{text-align:center;font-size:12px;color:var(--color-text-tertiary);padding:1.5rem 0 .5rem}
+.bd-section-label{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px;display:flex;align-items:center;gap:5px}
 @media (max-width:520px){
 .bd-app{padding:1rem .75rem}
 .bd-hero{padding:1rem}
 .bd-card{padding:1rem}
 .bd-grid2{grid-template-columns:1fr}
+.bd-grid3{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -185,9 +207,9 @@ const USER_KEY = "badminton_user_v1";
 const DOC_PATH = ["app","data"];
 
 const SLOT_PERIODS = [
-  {id:"morning",label:"รอบเช้า",icon:"ti-sun",time:"09:00–12:00",cls:"morning"},
-  {id:"evening",label:"รอบเย็น",icon:"ti-sunset-2",time:"19:00–23:00",cls:"evening"},
-  {id:"night",label:"รอบกลางคืน",icon:"ti-moon-stars",time:"20:00–22:00",cls:"night"}
+  {id:"morning",label:"รอบเช้า",icon:"ti-sun",time:"09:00–12:00",cls:"morning",defaultLimit:26},
+  {id:"evening",label:"รอบเย็น",icon:"ti-sunset-2",time:"19:00–23:00",cls:"evening",defaultLimit:26},
+  {id:"night",label:"รอบกลางคืน",icon:"ti-moon-stars",time:"20:00–22:00",cls:"night",defaultLimit:20}
 ];
 
 let state = {
@@ -199,7 +221,8 @@ let state = {
   modal:null,
   loaded:false,
   syncStatus:"connecting",
-  configError:false
+  configError:false,
+  _nameWarn:false
 };
 
 let db = null;
@@ -258,6 +281,12 @@ async function updateSlots(mutator){
   render();
 }
 
+function getSlotLimit(slot){
+  if(typeof slot.limit === 'number') return slot.limit;
+  const period = SLOT_PERIODS.find(p=>p.id===slot.periodId);
+  return period ? period.defaultLimit : 20;
+}
+
 function isPast(dateStr, periodId){
   const d = new Date(dateStr);
   const period = SLOT_PERIODS.find(p=>p.id===periodId);
@@ -287,7 +316,7 @@ function getInitial(name){
 
 function showAlert(msg,type){
   state.alert={msg,type:type||"success"}; render();
-  setTimeout(()=>{state.alert=null;render();},3000);
+  setTimeout(()=>{state.alert=null;render();},3500);
 }
 
 function escapeHtml(s){
@@ -331,7 +360,9 @@ function render(){
   if(state.currentUser || state.isAdmin){
     const activeSlots = state.slots.filter(s=>!isPast(s.date,s.periodId));
     const totalSignups = activeSlots.reduce((sum,s)=>sum+s.signups.length,0);
+    const totalWaiting = activeSlots.reduce((sum,s)=>sum+(s.waitlist||[]).length,0);
     const mySignups = state.currentUser ? activeSlots.filter(s=>s.signups.includes(state.currentUser)).length : 0;
+    const myWaiting = state.currentUser ? activeSlots.filter(s=>(s.waitlist||[]).includes(state.currentUser)).length : 0;
     html += `<div class="bd-stats">
       <div class="bd-stat">
         <div class="bd-stat-label"><i class="ti ti-calendar-event"></i>รอบที่เปิด</div>
@@ -341,9 +372,13 @@ function render(){
         <div class="bd-stat-label"><i class="ti ti-users"></i>ผู้ลงชื่อรวม</div>
         <div class="bd-stat-val">${totalSignups}</div>
       </div>
+      ${totalWaiting>0?`<div class="bd-stat">
+        <div class="bd-stat-label"><i class="ti ti-clock-hour-3"></i>รอสำรองรวม</div>
+        <div class="bd-stat-val">${totalWaiting}</div>
+      </div>`:''}
       ${state.currentUser?`<div class="bd-stat">
-        <div class="bd-stat-label"><i class="ti ti-bookmark"></i>ที่ฉันลงไว้</div>
-        <div class="bd-stat-val">${mySignups}</div>
+        <div class="bd-stat-label"><i class="ti ti-bookmark"></i>ของฉัน</div>
+        <div class="bd-stat-val">${mySignups}${myWaiting>0?` <span style="font-size:13px;color:var(--color-text-warning);font-weight:400">+${myWaiting}สำรอง</span>`:''}</div>
       </div>`:''}
     </div>`;
   }
@@ -388,19 +423,24 @@ function renderSetupGuide(){
       <li>สมัคร Firebase ที่ <a href="https://console.firebase.google.com" target="_blank" style="color:#1D9E75">console.firebase.google.com</a> (ฟรี)</li>
       <li>สร้างโปรเจกต์ใหม่ → เพิ่ม Web app → คัดลอก <code>firebaseConfig</code></li>
       <li>เปิด <strong>Firestore Database</strong> ในโปรเจกต์ → Create database → Start in test mode</li>
-      <li>เปิดไฟล์ <code>badminton-firebase.html</code> ด้วย text editor</li>
-      <li>มองหา <code>// ↓↓↓ แทนที่ค่าด้านล่าง ↓↓↓</code> แล้ววางค่า config ที่คัดลอกมา</li>
+      <li>เปิดไฟล์ด้วย text editor แล้ววางค่า config ที่คัดลอกมา</li>
       <li>เซฟไฟล์ แล้วเปิดด้วยเบราว์เซอร์อีกครั้ง — เสร็จ!</li>
     </ol>
-    <div class="bd-setup-warning" style="margin-top:1rem">
-      <strong><i class="ti ti-alert-triangle"></i> หมายเหตุ Firestore Rules</strong>
-      สำหรับใช้งานในกลุ่มเพื่อน ให้ตั้ง rules แบบเปิดอ่าน-เขียนได้ก่อน (ดูใน README.txt) ไม่ต้องตั้ง Authentication
-    </div>
+  </div>`;
+}
+
+function renderLimitBar(signups, limit){
+  const pct = Math.min(100, Math.round((signups/limit)*100));
+  const full = signups >= limit;
+  const warn = pct >= 80;
+  const fillCls = full ? 'full' : warn ? 'warn' : '';
+  return `<div class="bd-limit-bar-wrap">
+    <div class="bd-limit-bar-track"><div class="bd-limit-bar-fill ${fillCls}" style="width:${pct}%"></div></div>
+    <span class="bd-limit-label ${full?'full':''}">${signups}/${limit}</span>
   </div>`;
 }
 
 function renderUserView(){
-  // ── ยังไม่ได้กรอกชื่อ: แสดงฟอร์มพร้อม flag สำหรับ shake ──
   if(!state.currentUser){
     return `<div class="bd-card">
       <div class="bd-welcome">
@@ -410,7 +450,7 @@ function renderUserView(){
         ${state._nameWarn ? `<div class="bd-alert bd-alert-error" style="max-width:380px;margin:0 auto .75rem;text-align:left"><i class="ti ti-alert-circle"></i>กรุณากรอกชื่อก่อนดูรอบเวลา</div>` : ''}
         <div class="bd-name-form">
           <input class="bd-input${state._nameWarn?' bd-input-shake bd-input-warn':''}" type="text" id="bd-nameInput" placeholder="ชื่อ-นามสกุล หรือชื่อเล่น" maxlength="30" onkeydown="if(event.key==='Enter')bdSetUser()">
-          <button class="bd-btn bd-btn-primary" onclick="bdSetUser()" style="width: 6.5rem"><i class="ti ti-arrow-right"></i>เข้าใช้</button>
+          <button class="bd-btn bd-btn-primary" onclick="bdSetUser()" style="width:6.5rem"><i class="ti ti-arrow-right"></i>เข้าใช้</button>
         </div>
       </div>
     </div>`;
@@ -420,7 +460,7 @@ function renderUserView(){
     .filter(s=>!isPast(s.date,s.periodId))
     .sort((a,b)=>new Date(a.date)-new Date(b.date)||SLOT_PERIODS.findIndex(p=>p.id===a.periodId)-SLOT_PERIODS.findIndex(p=>p.id===b.periodId));
 
-  let html = `<div class="bd-info-banner"><i class="ti ti-info-circle"></i>สามารถลงชื่อได้หลายรอบในวันเดียวกัน</div>`;
+  let html = `<div class="bd-info-banner"><i class="ti ti-info-circle"></i>สามารถลงชื่อได้หลายรอบ · หากเต็มระบบจะเพิ่มคุณเป็น <strong>สำรอง</strong> อัตโนมัติ</div>`;
 
   if(!activeSlots.length){
     return html + `<div class="bd-card">
@@ -446,25 +486,49 @@ function renderUserView(){
       </div>`;
     slots.forEach(slot=>{
       const period = SLOT_PERIODS.find(p=>p.id===slot.periodId);
+      const limit = getSlotLimit(slot);
+      const waitlist = slot.waitlist || [];
       const alreadyIn = slot.signups.includes(state.currentUser);
+      const onWaitlist = waitlist.includes(state.currentUser);
+      const isFull = slot.signups.length >= limit;
+      const myWaitPos = onWaitlist ? waitlist.indexOf(state.currentUser)+1 : -1;
+
+      let actionBtn = '';
+      if(alreadyIn){
+        actionBtn = `<button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdRemoveSelf('${slot.id}')"><i class="ti ti-x"></i>ถอนชื่อ</button>`;
+      } else if(onWaitlist){
+        actionBtn = `<button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdRemoveFromWaitlist('${slot.id}')"><i class="ti ti-x"></i>ถอนสำรอง</button>`;
+      } else {
+        actionBtn = `<button class="bd-btn bd-btn-sm ${isFull?'':'bd-btn-primary'}" onclick="bdSignUp('${slot.id}')" ${isFull?'style="background:var(--color-background-warning);border-color:rgba(133,79,11,0.3);color:var(--color-text-warning)"':''}><i class="ti ${isFull?'ti-clock-hour-3':'ti-plus'}"></i>${isFull?'ลงสำรอง':'ลงชื่อ'}</button>`;
+      }
+
       html += `<div class="bd-slot">
         <div class="bd-slot-header">
           <div class="bd-slot-info">
             <span class="bd-slot-period ${period.cls}"><i class="ti ${period.icon}"></i>${period.label}</span>
             <span class="bd-slot-time"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px"></i> ${period.time}</span>
-            <span class="bd-slot-count"><i class="ti ti-users" style="font-size:13px"></i>${slot.signups.length}</span>
+            ${waitlist.length>0?`<span class="bd-slot-count" style="color:var(--color-text-warning)"><i class="ti ti-clock-hour-3" style="font-size:13px"></i>สำรอง ${waitlist.length}</span>`:''}
           </div>
-          ${alreadyIn
-            ? `<button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdRemoveSelf('${slot.id}')"><i class="ti ti-x"></i>ถอนชื่อ</button>`
-            : `<button class="bd-btn bd-btn-sm bd-btn-primary" onclick="bdSignUp('${slot.id}')"><i class="ti ti-plus"></i>ลงชื่อ</button>`}
+          ${actionBtn}
         </div>
+        ${renderLimitBar(slot.signups.length, limit)}
+        ${onWaitlist?`<div style="font-size:12px;color:var(--color-text-warning);margin-bottom:6px;display:flex;align-items:center;gap:5px"><i class="ti ti-clock-hour-3"></i>คุณอยู่ในรายชื่อสำรองลำดับที่ <strong>${myWaitPos}</strong></div>`:''}
+        <div class="bd-section-label"><i class="ti ti-users" style="font-size:13px"></i>รายชื่อ (${slot.signups.length}/${limit})</div>
         <div class="bd-signups">${slot.signups.length
-          ? slot.signups.map(u=>{
+          ? slot.signups.map((u,i)=>{
               const isMe = u===state.currentUser;
               return `<span class="bd-chip${isMe?' bd-chip-me':''}"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span>${escapeHtml(u)}${isMe?' <i class="ti ti-check" style="font-size:11px"></i>':''}</span>`;
             }).join('')
           : `<span class="bd-empty">ยังไม่มีผู้ลงชื่อ</span>`}
         </div>
+        ${waitlist.length>0?`
+        <div class="bd-waitlist-section">
+          <div class="bd-waitlist-header"><i class="ti ti-clock-hour-3"></i>รายชื่อสำรอง (${waitlist.length})</div>
+          <div class="bd-signups">${waitlist.map((u,i)=>{
+            const isMe = u===state.currentUser;
+            return `<span class="bd-chip ${isMe?'bd-chip-wait-me':'bd-chip-wait'}"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span><span class="bd-chip-num">${i+1}.</span>${escapeHtml(u)}${isMe?' <i class="ti ti-check" style="font-size:11px"></i>':''}</span>`;
+          }).join('')}</div>
+        </div>`:''}
       </div>`;
     });
     html += `</div>`;
@@ -477,7 +541,7 @@ function renderAdminView(){
   const today = new Date().toISOString().split('T')[0];
   let html = `<div class="bd-card">
     <div class="bd-card-title"><i class="ti ti-calendar-plus"></i>เพิ่มรอบใหม่</div>
-    <div class="bd-grid2">
+    <div class="bd-grid3">
       <div>
         <label class="bd-label">วันที่</label>
         <input class="bd-input" type="date" id="bd-adminDate" min="${today}">
@@ -485,6 +549,10 @@ function renderAdminView(){
       <div>
         <label class="bd-label">รอบ</label>
         <select class="bd-select" id="bd-adminPeriod">${SLOT_PERIODS.map(p=>`<option value="${p.id}">${p.label} (${p.time})</option>`).join('')}</select>
+      </div>
+      <div>
+        <label class="bd-label">จำนวนสูงสุด (ค่าตาม default ของรอบ)</label>
+        <input class="bd-input bd-input-num" type="number" id="bd-adminLimit" min="1" max="200" placeholder="auto" style="width:100%">
       </div>
     </div>
     <button class="bd-btn bd-btn-primary" onclick="bdAdminAddSlot()"><i class="ti ti-plus"></i>เพิ่มรอบ</button>
@@ -503,6 +571,9 @@ function renderAdminView(){
       const period = SLOT_PERIODS.find(p=>p.id===slot.periodId);
       const past = isPast(slot.date,slot.periodId);
       const rel = getRelativeDay(slot.date);
+      const limit = getSlotLimit(slot);
+      const waitlist = slot.waitlist || [];
+
       html += `<div class="bd-slot${past?' bd-past':''}" style="margin-bottom:10px">
         <div class="bd-slot-header">
           <div class="bd-slot-info" style="flex-direction:column;align-items:flex-start;gap:6px">
@@ -513,18 +584,33 @@ function renderAdminView(){
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
               <span class="bd-slot-period ${period.cls}"><i class="ti ${period.icon}"></i>${period.label}</span>
               <span class="bd-slot-time"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px"></i> ${period.time}</span>
-              <span class="bd-slot-count"><i class="ti ti-users" style="font-size:13px"></i>${slot.signups.length} คน</span>
+              <span class="bd-slot-count"><i class="ti ti-users" style="font-size:13px"></i>${slot.signups.length}/${limit} คน</span>
+              ${waitlist.length>0?`<span class="bd-slot-count" style="color:var(--color-text-warning)"><i class="ti ti-clock-hour-3" style="font-size:13px"></i>สำรอง ${waitlist.length}</span>`:''}
             </div>
           </div>
-          <button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdAdminDeleteSlot('${slot.id}')"><i class="ti ti-trash"></i>ลบรอบ</button>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <div class="bd-limit-control">
+              <button class="bd-btn bd-btn-sm bd-btn-icon" onclick="bdAdminChangeLimit('${slot.id}',-1)" title="ลด limit"><i class="ti ti-minus"></i></button>
+              <span>${limit}</span>
+              <button class="bd-btn bd-btn-sm bd-btn-icon" onclick="bdAdminChangeLimit('${slot.id}',1)" title="เพิ่ม limit"><i class="ti ti-plus"></i></button>
+            </div>
+            <button class="bd-btn bd-btn-sm bd-btn-danger" onclick="bdAdminDeleteSlot('${slot.id}')"><i class="ti ti-trash"></i>ลบรอบ</button>
+          </div>
         </div>
+        ${renderLimitBar(slot.signups.length, limit)}
+        <div class="bd-section-label"><i class="ti ti-users" style="font-size:13px"></i>รายชื่อ (${slot.signups.length})</div>
         <div class="bd-signups">${slot.signups.length
-          ? slot.signups.map(u=>`<span class="bd-chip"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span>${escapeHtml(u)}<span class="bd-chip-del" onclick="bdAdminRemovePerson('${slot.id}','${encodeURIComponent(u)}')" title="ลบออก">×</span></span>`).join('')
+          ? slot.signups.map(u=>`<span class="bd-chip"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span>${escapeHtml(u)}<span class="bd-chip-del" onclick="bdAdminRemovePerson('${slot.id}','${encodeURIComponent(u)}','signup')" title="ลบออก">×</span></span>`).join('')
           : `<span class="bd-empty">ว่างอยู่</span>`}
         </div>
+        ${waitlist.length>0?`
+        <div class="bd-waitlist-section">
+          <div class="bd-waitlist-header"><i class="ti ti-clock-hour-3"></i>รายชื่อสำรอง (${waitlist.length}) — เลื่อนขึ้นอัตโนมัติเมื่อมีคนถอน</div>
+          <div class="bd-signups">${waitlist.map((u,i)=>`<span class="bd-chip bd-chip-wait"><span class="bd-chip-avatar">${escapeHtml(getInitial(u))}</span><span class="bd-chip-num">${i+1}.</span>${escapeHtml(u)}<span class="bd-chip-del" onclick="bdAdminRemovePerson('${slot.id}','${encodeURIComponent(u)}','waitlist')" title="ลบออก">×</span></span>`).join('')}</div>
+        </div>`:''}
         <hr class="bd-divider">
         <div class="bd-add-form">
-          <input class="bd-input" type="text" placeholder="เพิ่มชื่อด้วยตนเอง" id="bd-addName_${slot.id}" maxlength="30" onkeydown="if(event.key==='Enter')bdAdminAddPerson('${slot.id}')">
+          <input class="bd-input" type="text" placeholder="เพิ่มชื่อเข้ารายชื่อด้วยตนเอง" id="bd-addName_${slot.id}" maxlength="30" onkeydown="if(event.key==='Enter')bdAdminAddPerson('${slot.id}')">
           <button class="bd-btn bd-btn-sm bd-btn-primary" onclick="bdAdminAddPerson('${slot.id}')"><i class="ti ti-user-plus"></i>เพิ่ม</button>
         </div>
       </div>`;
@@ -555,23 +641,15 @@ function renderModal(){
 
 // ───── Global handlers ─────
 window.bdSetView = v => {
-  // ถ้าคลิก "ดูรอบ/ลงชื่อ" แต่ยังไม่ได้กรอกชื่อ → แจ้งเตือนและ focus ช่องกรอกชื่อ
   if(v === 'user' && !state.currentUser && !state.isAdmin){
     state._nameWarn = true;
     render();
-    // หลัง render เสร็จ: focus + scroll ไปที่ช่องกรอกชื่อ
     setTimeout(()=>{
       const inp = document.getElementById("bd-nameInput");
-      if(inp){
-        inp.focus();
-        inp.scrollIntoView({behavior:"smooth", block:"center"});
-      }
-      // ลบ class shake ออกหลัง animation จบ แต่คง warn ไว้จนกว่าจะกรอก
-      setTimeout(()=>{
-        if(inp) inp.classList.remove("bd-input-shake");
-      }, 400);
-    }, 50);
-    return; // ไม่เปลี่ยน view
+      if(inp){ inp.focus(); inp.scrollIntoView({behavior:"smooth",block:"center"}); }
+      setTimeout(()=>{ const inp=document.getElementById("bd-nameInput"); if(inp) inp.classList.remove("bd-input-shake"); },400);
+    },50);
+    return;
   }
   state._nameWarn = false;
   state.view = v;
@@ -610,43 +688,75 @@ window.bdSetUser = () => {
 window.bdSignUp = async (slotId) => {
   if(!state.currentUser) return;
   const user = state.currentUser;
+  let msg = '';
   await updateSlots(slots => {
     const slot = slots.find(s=>s.id===slotId);
     if(!slot) return slots;
-    if(slot.signups.includes(user)){
+    if(!slot.waitlist) slot.waitlist = [];
+    const limit = getSlotLimit(slot);
+    if(slot.signups.includes(user)||slot.waitlist.includes(user)){
       showAlert("คุณลงชื่อไว้แล้ว","error");
       return slots;
     }
-    slot.signups.push(user);
-    showAlert(`ลงชื่อ ${SLOT_PERIODS.find(p=>p.id===slot.periodId).label} สำเร็จ`);
+    if(slot.signups.length < limit){
+      slot.signups.push(user);
+      msg = `ลงชื่อ ${SLOT_PERIODS.find(p=>p.id===slot.periodId).label} สำเร็จ`;
+    } else {
+      slot.waitlist.push(user);
+      msg = `รอบเต็ม — เพิ่มคุณเป็นสำรองลำดับที่ ${slot.waitlist.length}`;
+    }
     return slots;
   });
+  if(msg) showAlert(msg);
 };
 
 window.bdRemoveSelf = async (slotId) => {
   const user = state.currentUser;
   await updateSlots(slots => {
     const slot = slots.find(s=>s.id===slotId);
-    if(slot) slot.signups = slot.signups.filter(u=>u!==user);
+    if(!slot) return slots;
+    slot.signups = slot.signups.filter(u=>u!==user);
+    if(!slot.waitlist) slot.waitlist = [];
+    // promote first waitlist person
+    if(slot.waitlist.length > 0){
+      const promoted = slot.waitlist.shift();
+      slot.signups.push(promoted);
+    }
     return slots;
   });
   showAlert("ถอนชื่อเรียบร้อย");
 };
 
+window.bdRemoveFromWaitlist = async (slotId) => {
+  const user = state.currentUser;
+  await updateSlots(slots => {
+    const slot = slots.find(s=>s.id===slotId);
+    if(!slot) return slots;
+    if(!slot.waitlist) slot.waitlist = [];
+    slot.waitlist = slot.waitlist.filter(u=>u!==user);
+    return slots;
+  });
+  showAlert("ถอนออกจากรายชื่อสำรองแล้ว");
+};
+
 window.bdAdminAddSlot = async () => {
   const d=document.getElementById("bd-adminDate");
   const p=document.getElementById("bd-adminPeriod");
+  const lEl=document.getElementById("bd-adminLimit");
   if(!d||!p||!d.value){ showAlert("กรุณาเลือกวันที่","error"); return; }
   const date=d.value, periodId=p.value;
+  const period=SLOT_PERIODS.find(x=>x.id===periodId);
+  const limitVal = lEl&&lEl.value.trim() ? parseInt(lEl.value) : period.defaultLimit;
   await updateSlots(slots => {
     if(slots.find(s=>s.date===date&&s.periodId===periodId)){
       showAlert("มีรอบนี้อยู่แล้ว","error");
       return slots;
     }
-    slots.push({id:`${date}_${periodId}`,date:date,periodId:periodId,signups:[]});
-    showAlert(`เพิ่มรอบ ${formatDate(date)} ${SLOT_PERIODS.find(x=>x.id===periodId).label} แล้ว`);
+    slots.push({id:`${date}_${periodId}`,date,periodId,signups:[],waitlist:[],limit:limitVal});
+    showAlert(`เพิ่มรอบ ${formatDate(date)} ${period.label} (สูงสุด ${limitVal} คน)`);
     return slots;
   });
+  if(lEl) lEl.value='';
 };
 
 window.bdAdminDeleteSlot = async (slotId) => {
@@ -655,11 +765,38 @@ window.bdAdminDeleteSlot = async (slotId) => {
   showAlert("ลบรอบเรียบร้อย");
 };
 
-window.bdAdminRemovePerson = async (slotId, encodedName) => {
+window.bdAdminChangeLimit = async (slotId, delta) => {
+  await updateSlots(slots => {
+    const slot = slots.find(s=>s.id===slotId);
+    if(!slot) return slots;
+    if(!slot.waitlist) slot.waitlist = [];
+    const oldLimit = getSlotLimit(slot);
+    const newLimit = Math.max(1, oldLimit + delta);
+    slot.limit = newLimit;
+    // If limit increased, promote waitlist members to fill spots
+    while(slot.signups.length < slot.limit && slot.waitlist.length > 0){
+      slot.signups.push(slot.waitlist.shift());
+    }
+    return slots;
+  });
+};
+
+window.bdAdminRemovePerson = async (slotId, encodedName, listType) => {
   const name=decodeURIComponent(encodedName);
   await updateSlots(slots => {
     const slot=slots.find(s=>s.id===slotId);
-    if(slot) slot.signups=slot.signups.filter(u=>u!==name);
+    if(!slot) return slots;
+    if(!slot.waitlist) slot.waitlist=[];
+    if(listType==='waitlist'){
+      slot.waitlist=slot.waitlist.filter(u=>u!==name);
+    } else {
+      slot.signups=slot.signups.filter(u=>u!==name);
+      // promote from waitlist
+      if(slot.waitlist.length>0){
+        const promoted=slot.waitlist.shift();
+        slot.signups.push(promoted);
+      }
+    }
     return slots;
   });
 };
@@ -671,12 +808,19 @@ window.bdAdminAddPerson = async (slotId) => {
   await updateSlots(slots => {
     const slot=slots.find(s=>s.id===slotId);
     if(!slot) return slots;
-    if(slot.signups.includes(name)){
+    if(!slot.waitlist) slot.waitlist=[];
+    const limit=getSlotLimit(slot);
+    if(slot.signups.includes(name)||slot.waitlist.includes(name)){
       showAlert(`${name} มีชื่ออยู่แล้ว`,"error");
       return slots;
     }
-    slot.signups.push(name);
-    showAlert(`เพิ่ม ${name} แล้ว`);
+    if(slot.signups.length < limit){
+      slot.signups.push(name);
+      showAlert(`เพิ่ม ${name} เข้ารายชื่อแล้ว`);
+    } else {
+      slot.waitlist.push(name);
+      showAlert(`เพิ่ม ${name} เป็นสำรองลำดับที่ ${slot.waitlist.length}`);
+    }
     return slots;
   });
   if(inp) inp.value="";
